@@ -15,6 +15,25 @@ function copyDir(src, dest) {
   }
 }
 
+/** Replace primary header links inside .nav-menu (drops dropdowns). */
+function replaceNavMenu(html, links) {
+  const openTag = '<nav role="navigation" class="nav-menu w-nav-menu">';
+  const start = html.indexOf(openTag);
+  if (start === -1) return html;
+  const afterOpen = start + openTag.length;
+  const contact = html.indexOf("navbar-contact-wrapper", afterOpen);
+  if (contact === -1) return html;
+  const closeNav = html.lastIndexOf("</nav>", contact);
+  if (closeNav === -1 || closeNav < afterOpen) return html;
+  const inner = links
+    .map(
+      ({ href, label }) =>
+        `<a href="${href}" class="nav-link w-nav-link">${label}</a>`
+    )
+    .join("");
+  return html.slice(0, afterOpen) + inner + html.slice(closeNav);
+}
+
 console.log("Syncing template → public/template …");
 fs.rmSync(publicTemplate, { recursive: true, force: true });
 copyDir(templateDir, publicTemplate);
@@ -71,134 +90,130 @@ function restoreAssets(input) {
 
 html = protectAssets(html);
 
-// --- IT company content replacements ---
+// --- Northline AI-first content ---
 const replacements = [
-  ["Ritovex - Webflow Ecommerce Website Template", "Northline | Custom Software, AI SaaS & Digital Products"],
+  ["Ritovex - Webflow Ecommerce Website Template", "Northline | AI Software, SaaS & Custom Products"],
   [
     "Ritovex is a modern Creative Agency Webflow Ecommerce template, designed for startups, agencies, and professionals to build stunning, high-performing websites.",
-    "Northline builds custom software, AI SaaS, TMS, CRM, and cloud products for startups and enterprises — from strategy through launch.",
+    "Northline is an Ahmedabad AI software studio — we design and ship AI SaaS, copilots, automation, and custom products for startups and enterprises.",
   ],
-  ["Ritovex - Webflow Ecommerce Website Template", "Northline | IT Company"],
+  ["Ritovex - Webflow Ecommerce Website Template", "Northline | AI Software Studio"],
   [">Ritovex<", ">Northline<"],
-  ["Creative Ideas That Inspire Growth", "Engineering Ideas That Ship Products"],
-  ["World’s Best Creative Agency Team", "Your Partner for Custom Software & AI"],
+  ["Creative Ideas That Inspire Growth", "AI That Ships in Production"],
+  ["World’s Best Creative Agency Team", "Build AI Products That Operators Trust"],
   [
     "World’s best creative agency team – crafting legendary brands &nbsp;through bold ideas, strategic genius, and flawless execution that &nbsp;dominates the global stage.",
-    "Senior engineers and product thinkers building AI SaaS, transport systems, CRM platforms, and cloud apps that operators trust every day.",
+    "From Ahmedabad to global teams — we turn LLMs, data, and workflows into AI SaaS, copilots, and automation your people actually use.",
   ],
   [
     "World’s best creative agency team – crafting legendary brands through bold ideas, strategic genius, and flawless execution that dominates the global stage.",
-    "Senior engineers and product thinkers building AI SaaS, transport systems, CRM platforms, and cloud apps that operators trust every day.",
+    "From Ahmedabad to global teams — we turn LLMs, data, and workflows into AI SaaS, copilots, and automation your people actually use.",
   ],
-  ["Trusted Partners Worldwide for Success", "Trusted by product teams shipping worldwide"],
+  ["Trusted Partners Worldwide for Success", "Trusted by teams putting AI into production"],
   ["Who We Are. Learn About us", "Who We Are. Learn about Northline"],
   [
     "We are a dynamic team of innovators, storytellers, and visionaries dedicated to transforming ideas into extraordinary experiences.",
-    "We are a product engineering studio — designers, full-stack developers, and AI specialists turning business problems into reliable software.",
+    "We are an AI product studio in Ahmedabad — engineers and designers who ship copilots, RAG systems, and intelligent SaaS — not slide-deck demos.",
   ],
-  ["We deliver great work always", "Projects delivered on time"],
-  ["Experience you can count on", "Years of engineering experience"],
-  ["Award-Winning Work, Trusted Results", "Products launched in production"],
-  ["We have happy Clients worldwide", "Happy clients worldwide"],
-  ["More About Us", "Meet the Team"],
-  ["Get free Qoute", "Book a call"],
-  ["Get free Quote", "Book a call"],
-  ["Your Needs, Our Expertise", "What we build for IT teams"],
+  ["We deliver great work always", "AI features shipped to production"],
+  ["Experience you can count on", "Years building software products"],
+  ["Award-Winning Work, Trusted Results", "AI MVPs launched with clients"],
+  ["We have happy Clients worldwide", "Clients across India & remote"],
+  ["More About Us", "About Northline"],
+  ["Get free Qoute", "Start an AI project"],
+  ["Get free Quote", "Start an AI project"],
+  ["Your Needs, Our Expertise", "AI capabilities we deliver"],
   [
     "Your Vision, Our Expertise – Together, we bring ideas to life &nbsp;with tailored solutions that deliver real results. Let’s build something amazing.",
-    "From AI-native TMS and CRM to cloud platforms — we design, build, and stay on so your product keeps shipping after launch.",
+    "LLM apps, RAG knowledge bases, document AI, scoring models, and AI-native SaaS — scoped to a metric, built to run in production.",
   ],
   [
     "Your Vision, Our Expertise – Together, we bring ideas to life with tailored solutions that deliver real results. Let’s build something amazing.",
-    "From AI-native TMS and CRM to cloud platforms — we design, build, and stay on so your product keeps shipping after launch.",
+    "LLM apps, RAG knowledge bases, document AI, scoring models, and AI-native SaaS — scoped to a metric, built to run in production.",
   ],
-  [">Web Design<", ">Custom Software<"],
+  [">Web Design<", ">AI Solutions<"],
   [
     "Focuses on the aesthetic and user experience of a website, creating visually appealing and intuitive layouts. It involves aspects like graphic design, typography, and color schemes to enhance user engagement.",
-    "End-to-end web and mobile apps — UX, APIs, databases, and cloud deploy — built for the workflows your operators live in every day.",
+    "Copilots, chat over your data, document extraction, and workflow automation — models where they earn ROI, humans for the decisions that matter.",
   ],
-  [">Web Development<", ">Cloud & DevOps<"],
+  [">Web Development<", ">AI SaaS Platforms<"],
   [
     "Involves the coding and programming that makes a website functional and interactive. This includes front-end development (what users see) and back-end development (server, database, and application logic).",
-    "Infrastructure, CI/CD, observability, and secure deployments so your product scales without late-night fire drills.",
+    "Multi-tenant AI products with auth, billing-ready APIs, evals, and observability — so your SaaS stays reliable as usage grows.",
   ],
-  [">Branding<", ">AI Solutions<"],
+  [">Branding<", ">Custom Software<"],
   [
     "The process of creating a unique identity for a company or product, encompassing its name, logo, messaging, and overall market perception. It aims to establish recognition and a positive emotional connection with the target audience.",
-    "Practical AI for routing, scoring, document automation, and copilots — models where they earn their keep, people for product decisions.",
+    "Full-stack web and mobile systems with AI features woven in — TMS, CRM, ops tools, and portals built around how your team works.",
   ],
-  [">Product Design<", ">Product Engineering<"],
+  [">Product Design<", ">Data & Integrations<"],
   [
     "Encompasses the entire process of creating a new product, from conceptualization and research to prototyping and final execution. It focuses on solving user problems and enhancing the overall user experience.",
-    "Discovery, UX, MVP, and iteration loops — the smallest useful version shipped fast, instrumented for real usage.",
+    "Pipelines, embeddings, vector search, and clean connections to your CRMs, ERPs, and cloud — the backbone every serious AI feature needs.",
   ],
-  ["Explore Our Real Woks", "Explore Our Real Work"],
+  ["Explore Our Real Woks", "Explore Our AI Work"],
   ['SmartCity Traffic Solution"', "FleetMind AI TMS"],
   [
     "AI-powered sensors reduced downtown traffic congestion by 35% weekly.",
-    "AI routing and live tracking cut empty miles by 28% for regional fleets.",
+    "LLM-assisted dispatch and predictive ETAs cut empty miles for regional fleets.",
   ],
   ["ShopEasy E-Commerce Platform", "PipelineAI CRM"],
   [
     "Boosted online sales 200% with lightning-fast, mobile-friendly checkout flows.",
-    "AI lead scoring and follow-up drafts doubled qualified pipeline in two quarters.",
+    "AI lead scoring and reply drafts doubled qualified pipeline in two quarters.",
   ],
-  ["MedTrack Healthcare App", "CargoLink Network"],
+  ["MedTrack Healthcare App", "DocuMind RAG"],
   [
     "Doctor-patient communication with secure messaging and appointment tracking.",
-    "Cross-border cargo booking, docs, and status in one digital operating network.",
+    "Private knowledge chat over SOPs and contracts — answers with citations, not guesses.",
   ],
-  ["EduPlay Learning Portal", "Orbit Ops Console"],
+  ["EduPlay Learning Portal", "OpsPilot Copilot"],
   [
     "Interactive STEM games increased student engagement by 4X in classrooms.",
-    "Replaced three internal tools — status-related support tickets fell by half.",
+    "In-app copilot for support and ops teams — fewer tickets, faster first response.",
   ],
-  ["Working Process", "How we deliver"],
-  ["Explore Our 3 Step Working Process", "Explore Our 3 Step Delivery Process"],
-  ["Start Projects", "Start a Project"],
-  ["Discovery & Strategy", "Discovery & Strategy"],
-  ["We start by understanding your vision, goals,", "We scope the problem, users, and the metric that must move,"],
-  ["Design & Development", "Design & Build"],
-  ["UI/UX Design", "UI/UX & Architecture"],
-  ["Digital Marketing", "Launch & Iterate"],
+  ["Working Process", "How we deliver AI"],
+  ["Explore Our 3 Step Working Process", "Explore Our 3 Step AI Delivery"],
+  ["Start Projects", "Start an AI Project"],
+  ["UI/UX Design", "LLM Apps & Copilots"],
+  ["Digital Marketing", "RAG & Automation"],
   ["Testimonial", "Client Stories"],
   ["What Our Clients are Saying", "What Our Clients are Saying"],
   [
     "Hear directly from our clients about their experiences and the results we've delivered. Explore Client Feedback",
-    "Hear from founders and operators on the software we design and ship. Explore Client Feedback",
+    "Hear from founders and operators on the AI products we design and ship. Explore Client Feedback",
   ],
   ["Project Manager at triko", "COO at FleetMind"],
   ["CTO at Ritovex", "VP Sales at PipelineAI"],
-  ["Software Engineer at Briks", "CTO at CargoLink"],
-  ["Founder at Ritof", "Founder at Orbit Ops"],
-  ["Have a project in mind? Just let us know!", "Have a software project in mind? Tell us."],
-  ["Let’s Start Talk", "Let’s Build Together"],
-  ["Connect With Us", "Talk to Founders"],
-  ["Our Blogs", "Insights"],
+  ["Software Engineer at Briks", "Head of Ops at DocuMind"],
+  ["Founder at Ritof", "Founder at OpsPilot"],
+  ["Have a project in mind? Just let us know!", "Have an AI product in mind? Tell us."],
+  ["Let’s Start Talk", "Let’s Build Your AI Product"],
+  ["Connect With Us", "Talk to Northline"],
+  ["Our Blogs", "AI Insights"],
   ["Read Our Recants Article", "Read Our Recent Articles"],
   ["Browse All Article", "Browse All Articles"],
-  ["Simple Tips for Better Website Design", "Practical Tips for Better SaaS UX"],
+  ["Simple Tips for Better Website Design", "When to Use RAG vs Fine-Tuning"],
   [
     "Learn easy ways to improve your website’s look and feel. easy step for you",
-    "Small UX changes that help operators finish work faster in complex apps.",
+    "A practical rule of thumb for grounding LLMs on your company data.",
   ],
-  ["How to Speed Up Your Website Fast loading", "How to Speed Up Your Web App"],
+  ["How to Speed Up Your Website Fast loading", "How to Ship an AI MVP in 6 Weeks"],
   [
     "Quick fixes to make your site load faster. How great user experience boosts your business",
-    "Performance wins that keep dashboards snappy under real production load.",
+    "Scope, evals, and guardrails so your first AI release is useful — not a demo.",
   ],
-  ["Best Tools for App Development Today world", "Best Tools for AI App Development"],
+  ["Best Tools for App Development Today world", "Stack We Use for Production AI"],
   [
     "Keep your site safe with simple security tips best tools to build apps easily and quickly",
-    "A practical stack for shipping AI TMS and CRM features without bloat.",
+    "Models, vector DBs, and observability we trust when AI has to work on Monday morning.",
   ],
   [
     "Get the latest tips for social media growth and marketing straight to your inbox!",
-    "Get product engineering tips and AI SaaS playbooks in your inbox.",
+    "Get practical notes on shipping AI SaaS and copilots — no hype.",
   ],
   ["hello@domain.com", "hello@northline.dev"],
-  ["22 (00) 356 7890", "+1 (415) 555-0142"],
-  ["+91 123 456789", "+1 (415) 555-0142"],
+  ["Springfield 1234 Elmwood Street, IL 62701 USA", "Ahmedabad, Gujarat, India"],
   ["View Web Development", "View Case Study"],
 ];
 
@@ -243,6 +258,43 @@ html = restoreAssets(html);
 const bodyMatch = html.match(/<body[^>]*>([\s\S]*)<\/body>/i);
 if (!bodyMatch) throw new Error("No body found");
 let body = bodyMatch[1];
+
+// Header nav: About Us · Portfolio · Blogs · Contact Us
+body = replaceNavMenu(
+  body,
+  [
+    { href: "#about", label: "About Us" },
+    { href: "#work", label: "Portfolio" },
+    { href: "#blog", label: "Blogs" },
+    { href: "#contact", label: "Contact Us" },
+  ]
+);
+
+// Process cards share duplicate template text — set each step explicitly
+const processSteps = [
+  {
+    cls: "_01",
+    title: "AI Discovery &amp; Scope",
+    desc: "We map data, workflows, and the metric AI must move — before writing a line of model code.",
+  },
+  {
+    cls: "_02",
+    title: "Build &amp; Integrate",
+    desc: "Copilots, RAG, and APIs wired into your product with evals, auth, and production-ready UX.",
+  },
+  {
+    cls: "_03",
+    title: "Launch &amp; Improve",
+    desc: "Ship, measure quality, and iterate on prompts, retrieval, and UI until the team trusts it daily.",
+  },
+];
+for (const step of processSteps) {
+  const re = new RegExp(
+    `(<div class="working-process-card ${step.cls}">[\\s\\S]*?<h3 class="working-process-card-title">)[\\s\\S]*?(<\\/h3><div class="working-process-card-description">)[\\s\\S]*?(<\\/div>)`,
+    "i"
+  );
+  body = body.replace(re, `$1${step.title}$2${step.desc}$3`);
+}
 
 // Give major sections stable IDs for in-page nav (best-effort)
 body = body
@@ -294,8 +346,82 @@ function removeElementByAttr(html, attrMatch) {
   return html;
 }
 
+function indexOfTag(html, tagName, from, closing) {
+  const needle = closing ? `</${tagName}` : `<${tagName}`;
+  let i = from;
+  const lower = html.toLowerCase();
+  while (i < html.length) {
+    const idx = lower.indexOf(needle, i);
+    if (idx < 0) return -1;
+    const after = lower[idx + needle.length];
+    if (after === undefined || /[\s>/]/.test(after)) return idx;
+    i = idx + 1;
+  }
+  return -1;
+}
+
+/** Remove every tagName element whose opening tag matches attrMatch (optional contentMatch). */
+function removeAllMatchingTags(html, tagName, attrMatch, contentMatch) {
+  let guard = 0;
+  while (guard++ < 50) {
+    let found = null;
+    let searchFrom = 0;
+    while (searchFrom < html.length) {
+      const open = indexOfTag(html, tagName, searchFrom, false);
+      if (open < 0) break;
+      const tagEnd = html.indexOf(">", open);
+      if (tagEnd < 0) break;
+      const openTag = html.slice(open, tagEnd + 1);
+      if (!attrMatch.test(openTag)) {
+        searchFrom = tagEnd + 1;
+        continue;
+      }
+      let depth = 1;
+      let i = tagEnd + 1;
+      while (i < html.length && depth > 0) {
+        const nextOpen = indexOfTag(html, tagName, i, false);
+        const nextClose = indexOfTag(html, tagName, i, true);
+        if (nextClose < 0) {
+          i = html.length;
+          break;
+        }
+        if (nextOpen >= 0 && nextOpen < nextClose) {
+          depth += 1;
+          i = nextOpen + 1;
+          continue;
+        }
+        depth -= 1;
+        i = html.indexOf(">", nextClose) + 1;
+      }
+      const chunk = html.slice(open, i);
+      if (contentMatch && !contentMatch.test(chunk)) {
+        searchFrom = i;
+        continue;
+      }
+      found = { open, end: i };
+      break;
+    }
+    if (!found) break;
+    html = html.slice(0, found.open) + html.slice(found.end);
+  }
+  return html;
+}
+
 body = removeElementByAttr(body, /data-node-type="commerce-cart-wrapper"/);
 body = removeElementByAttr(body, /class="[^"]*w-commerce-commercecartwrapper/);
+
+// Remove phone / "Call Any Time" CTAs everywhere (header, about, footer)
+body = removeAllMatchingTags(
+  body,
+  "a",
+  /class="[^"]*navbar-contact-link-block/
+);
+body = removeAllMatchingTags(
+  body,
+  "div",
+  /class="footer-information-single"/,
+  /(?:22\s*\(00\)\s*356\s*7890|\+91\s*123\s*456789|\+1\s*\(415\)\s*555-0142|tel:)/
+);
 
 // Newsletter: replace entire Webflow form block with a plain local form
 body = body.replace(

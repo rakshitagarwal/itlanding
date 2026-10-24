@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { img } from "@/lib/assets";
-import { about, site } from "@/lib/content";
+import { about } from "@/lib/content";
 import { Counter, ImageWipe, PrimaryButton, Reveal } from "./motion";
 
 export function About() {
@@ -50,18 +50,6 @@ export function About() {
 
           <Reveal delay={0.2} className="mt-8 flex flex-wrap items-center gap-4">
             <PrimaryButton href="#work" label="More About Us" />
-            <a
-              href={`tel:${site.phone.replace(/[^\d+]/g, "")}`}
-              className="flex items-center gap-3"
-            >
-              <span className="flex h-12 w-12 items-center justify-center rounded-lg bg-surface">
-                <Image src={img.contactIcon} alt="" width={22} height={22} />
-              </span>
-              <span>
-                <span className="block text-sm font-bold">Get free Qoute</span>
-                <span className="block text-lg font-bold">{site.phone}</span>
-              </span>
-            </a>
           </Reveal>
         </div>
       </div>

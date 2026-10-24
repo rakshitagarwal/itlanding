@@ -63,26 +63,6 @@ export function Header() {
           </ul>
         </nav>
 
-        <div className="hidden items-center gap-5 py-4 pl-6 lg:flex">
-          <span className="text-sm text-muted">Cart (0)</span>
-          <a
-            href={`tel:${site.phone.replace(/[^\d+]/g, "")}`}
-            className="flex items-center gap-2.5"
-          >
-            <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-surface">
-              <Image src={img.contactIcon} alt="" width={18} height={18} />
-            </span>
-            <span className="leading-tight">
-              <span className="block text-[11px] font-bold text-foreground">
-                {site.phoneLabel}
-              </span>
-              <span className="block text-base font-bold text-foreground">
-                {site.phone}
-              </span>
-            </span>
-          </a>
-        </div>
-
         <button
           type="button"
           className="ml-auto inline-flex h-11 w-11 items-center justify-center self-center rounded-[5px] border border-[#1b1a2733] lg:hidden"
