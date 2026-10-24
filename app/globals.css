@@ -112,3 +112,87 @@ body {
     animation: none;
   }
 }
+
+/* Portfolio: sticky vertical scroll drives L→R gallery (2 cards visible, 4 total) */
+.ritovex-root .portfolio-content-vh {
+  height: 280vh !important;
+}
+
+.ritovex-root .portfolio-sticky {
+  position: sticky !important;
+  top: 88px !important;
+  padding-bottom: 24px;
+}
+
+.ritovex-root .portfolio-ticker {
+  overflow: hidden !important;
+  width: 100%;
+}
+
+.ritovex-root .portfolio-ticker-flex {
+  display: flex !important;
+  padding-left: max(16px, calc((100vw - 1320px) / 2));
+  padding-right: 16px;
+}
+
+.ritovex-root .portfolio-inner-ticker {
+  display: flex !important;
+  flex: none !important;
+  grid-template-columns: none !important;
+  align-items: stretch !important;
+  will-change: transform;
+  gap: 0;
+}
+
+.ritovex-root .portfolio-card {
+  flex: none !important;
+  width: calc((min(100vw, 1320px) - 48px) / 2) !important;
+  max-width: 640px;
+  margin-right: 24px !important;
+}
+
+.ritovex-root .portfolio-card:last-child {
+  margin-right: 0 !important;
+}
+
+@media screen and (max-width: 991px) {
+  .ritovex-root .portfolio-content-vh {
+    height: 220vh !important;
+  }
+
+  .ritovex-root .portfolio-card {
+    width: calc(100vw - 48px) !important;
+    max-width: none;
+    margin-right: 16px !important;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .ritovex-root .portfolio-sticky {
+    top: 72px !important;
+  }
+
+  .ritovex-root .portfolio-ticker-flex {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ritovex-root .portfolio-content-vh {
+    height: auto !important;
+  }
+
+  .ritovex-root .portfolio-sticky {
+    position: static !important;
+  }
+
+  .ritovex-root .portfolio-inner-ticker {
+    flex-wrap: wrap !important;
+    transform: none !important;
+  }
+
+  .ritovex-root .portfolio-card {
+    width: calc(50% - 12px) !important;
+  }
+}
