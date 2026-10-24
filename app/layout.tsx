@@ -1,19 +1,22 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { site } from "@/lib/content";
 
 export const metadata: Metadata = {
-  title: `${site.name} - Webflow Ecommerce Website Template`,
+  title: "Northline | Custom Software, AI SaaS & Digital Products",
   description:
-    "World’s best creative agency team – crafting legendary brands through bold ideas, strategic genius, and flawless execution.",
+    "Northline builds custom software, AI SaaS, TMS, CRM, and cloud products for startups and enterprises — from strategy through launch.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className="h-full antialiased">
-      <body className="min-h-full flex flex-col bg-background text-foreground font-sans">
-        {children}
-      </body>
+    <html lang="en" className="h-full">
+      <head>
+        <link
+          rel="stylesheet"
+          href="/template/css/ritovex.webflow.shared.84db156a8.css"
+        />
+      </head>
+      <body className="min-h-full">{children}</body>
     </html>
   );
 }

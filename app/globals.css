@@ -1,106 +1,114 @@
 @import "tailwindcss";
 
-@font-face {
-  font-family: Satoshi;
-  src: url("/ritovex/fonts/6877f416171d80ab243a3662_Satoshi-Light.ttf") format("truetype");
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: Satoshi;
-  src: url("/ritovex/fonts/6877f4166b56b8448059a748_Satoshi-Regular.ttf") format("truetype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: Satoshi;
-  src: url("/ritovex/fonts/6877f416e7a97f3f6bde499f_Satoshi-Medium.ttf") format("truetype");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: Satoshi;
-  src: url("/ritovex/fonts/6877f416171d80ab243a365f_Satoshi-Bold.ttf") format("truetype");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: Satoshi;
-  src: url("/ritovex/fonts/6877f416f92dd6cf6263052b_Satoshi-Black.ttf") format("truetype");
-  font-weight: 900;
-  font-style: normal;
-  font-display: swap;
-}
-
-:root {
-  --background: #ffffff;
-  --foreground: #141414;
-  --muted: #494852;
-  --surface: #f6f6f9;
-  --accent: #ff7a52;
-  --border: #1b1a2733;
-  --section-gap: 110px;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-muted: var(--muted);
-  --color-surface: var(--surface);
-  --color-accent: var(--accent);
-  --color-border: var(--border);
-  --font-sans: Satoshi, Arial, sans-serif;
-}
-
+/* Minimal host styles — Ritovex/Webflow CSS owns the homepage look */
 html {
   scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Satoshi, Arial, sans-serif;
+  margin: 0;
 }
 
-::selection {
-  background: var(--accent);
-  color: #fff;
+.ritovex-root .page-wrapper {
+  min-height: 100vh;
+  opacity: 1 !important;
+  visibility: visible !important;
 }
 
-@keyframes marquee {
+/* Never let Webflow image wipe overlays cover hero/about photos */
+.ritovex-root .image-overlay {
+  display: none !important;
+  pointer-events: none !important;
+}
+
+.ritovex-root .banner-image,
+.ritovex-root .about-us-image {
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
+  width: 100%;
+  height: auto;
+}
+
+/* Footer ends at credits/social bar — no logo strip underneath */
+.ritovex-root .footer-bottom-content {
+  display: none !important;
+}
+
+.ritovex-root .section.footer {
+  padding-bottom: 40px;
+}
+
+.ritovex-root .footer-details-wrapper {
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  padding-top: 28px;
+  margin-top: 10px;
+}
+
+/* Northline mark is a square icon — Webflow mobile rule (width:100%; max 120px)
+   was written for a wide wordmark and blows the icon up on phones. */
+.ritovex-root .navbar-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  max-width: none;
+}
+
+.ritovex-root .navbar-logo-image {
+  width: 32px !important;
+  max-width: 32px !important;
+  height: 32px !important;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.ritovex-root .navbar-logo-text {
+  margin-left: 8px !important;
+  font-size: 17px !important;
+  line-height: 1 !important;
+  white-space: nowrap;
+}
+
+@media screen and (max-width: 767px) {
+  .ritovex-root .navbar-logo-image {
+    width: 28px !important;
+    max-width: 28px !important;
+    height: 28px !important;
+  }
+
+  .ritovex-root .navbar-logo-text {
+    font-size: 16px !important;
+  }
+}
+
+/* Sponsors logo strip — continuous horizontal marquee (Webflow IX2 ticker fallback) */
+.ritovex-root .sponsors-ticker {
+  overflow: hidden;
+  width: 100%;
+}
+
+.ritovex-root .sponsors-ticker .ticker {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation: northline-sponsors-marquee 40s linear infinite;
+}
+
+.ritovex-root .sponsors-ticker .inner-ticker-wrapper {
+  flex: none;
+}
+
+@keyframes northline-sponsors-marquee {
   from {
-    transform: translateX(0);
+    transform: translate3d(-50%, 0, 0);
   }
   to {
-    transform: translateX(-50%);
+    transform: translate3d(0, 0, 0);
   }
-}
-
-.animate-marquee {
-  animation: marquee 30s linear infinite;
-}
-
-.animate-marquee-slow {
-  animation: marquee 45s linear infinite;
-}
-
-.banner-mask {
-  clip-path: path(
-    "M0,32 C0,14 14,0 32,0 L520,0 C560,0 590,40 631,80 L631,520 C631,560 600,600 560,600 L32,600 C14,600 0,586 0,568 Z"
-  );
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-marquee,
-  .animate-marquee-slow {
+  .ritovex-root .sponsors-ticker .ticker {
     animation: none;
   }
 }
