@@ -94,6 +94,61 @@ function initWebflow() {
   }
 }
 
+/**
+ * Sticky portfolio: vertical scroll through the tall section moves the
+ * 4-card track left→right (2 visible at a time), then page continues down.
+ */
+function installPortfolioHorizontalScroll(root: HTMLElement) {
+  const section = root.querySelector<HTMLElement>(".portfolio-content-vh");
+  const track = root.querySelector<HTMLElement>(".portfolio-inner-ticker");
+  const viewport = root.querySelector<HTMLElement>(".portfolio-ticker");
+  if (!section || !track || !viewport) return () => {};
+
+  // Reveal Webflow opacity:0 wrappers so the gallery is visible
+  section
+    .querySelectorAll<HTMLElement>(
+      ".portfolio-top-content, .portfolio-bottom-content"
+    )
+    .forEach((el) => {
+      el.style.opacity = "1";
+      el.style.visibility = "visible";
+      el.style.transform = "none";
+    });
+
+  let raf = 0;
+  const update = () => {
+    raf = 0;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      track.style.transform = "none";
+      return;
+    }
+    // On small screens keep 1-card horizontal scrub; always use sticky path ≥768
+    const scrollRange = Math.max(1, section.offsetHeight - window.innerHeight);
+    const passed = Math.min(
+      scrollRange,
+      Math.max(0, -section.getBoundingClientRect().top)
+    );
+    const progress = passed / scrollRange;
+    const maxShift = Math.max(0, track.scrollWidth - viewport.clientWidth);
+    track.style.transform = `translate3d(${-progress * maxShift}px, 0, 0)`;
+  };
+
+  const onScrollOrResize = () => {
+    if (raf) return;
+    raf = window.requestAnimationFrame(update);
+  };
+
+  update();
+  window.addEventListener("scroll", onScrollOrResize, { passive: true });
+  window.addEventListener("resize", onScrollOrResize);
+
+  return () => {
+    window.removeEventListener("scroll", onScrollOrResize);
+    window.removeEventListener("resize", onScrollOrResize);
+    if (raf) window.cancelAnimationFrame(raf);
+  };
+}
+
 /** Fallback scroll reveals if Webflow IX2 does not animate a node. */
 function installScrollReveal(root: HTMLElement) {
   const targets = Array.from(
@@ -110,6 +165,7 @@ function installScrollReveal(root: HTMLElement) {
     el.style.transform = "none";
     // Also reveal direct hidden children used by Webflow load/scroll IX
     el.querySelectorAll<HTMLElement>("[style*='opacity']").forEach((child) => {
+      if (child.classList.contains("portfolio-inner-ticker")) return;
       const s = child.getAttribute("style") || "";
       if (!/opacity\s*:\s*0/.test(s)) return;
       child.style.transition =
@@ -226,6 +282,7 @@ export function TemplateHome() {
     const root = rootRef.current;
     const unwireForms = root ? wireLocalForms(root) : () => {};
     let stopReveal: (() => void) | undefined;
+    let stopPortfolio: (() => void) | undefined;
 
     let cancelled = false;
 
@@ -242,6 +299,7 @@ export function TemplateHome() {
           clearOverlaysAndHeroImages(rootRef.current);
           if (rootRef.current) {
             stopReveal = installScrollReveal(rootRef.current);
+            stopPortfolio = installPortfolioHorizontalScroll(rootRef.current);
           }
           setTimeout(() => {
             if (!cancelled) clearOverlaysAndHeroImages(rootRef.current);
@@ -250,7 +308,10 @@ export function TemplateHome() {
       } catch (err) {
         console.error(err);
         clearOverlaysAndHeroImages(rootRef.current);
-        if (rootRef.current) stopReveal = installScrollReveal(rootRef.current);
+        if (rootRef.current) {
+          stopReveal = installScrollReveal(rootRef.current);
+          stopPortfolio = installPortfolioHorizontalScroll(rootRef.current);
+        }
       }
     })();
 
@@ -259,6 +320,7 @@ export function TemplateHome() {
       restoreFetch();
       unwireForms();
       stopReveal?.();
+      stopPortfolio?.();
       try {
         window.Webflow?.destroy?.();
       } catch {
