@@ -1,0 +1,31 @@
+<svg width="1200" height="675" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#7c2d12;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#431407;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#050505;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#FF8A5B;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f97316;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="675" fill="url(#bg)"/>
+  <circle cx="920" cy="150" r="75" fill="#FF8A5B" opacity="0.15"/>
+  <circle cx="170" cy="520" r="80" fill="#FF8A5B" opacity="0.1"/>
+  <rect x="150" y="200" width="900" height="275" rx="12" fill="#0a0a0a" stroke="#FF8A5B" stroke-opacity="0.3" stroke-width="1"/>
+  <rect x="170" y="220" width="190" height="20" rx="6" fill="url(#accent)" opacity="0.8"/>
+  <rect x="170" y="270" width="280" height="50" rx="8" fill="#1e1e1e"/>
+  <text x="190" y="300" font-family="system-ui, sans-serif" font-size="16" fill="#f4f4f5">Pending Approvals</text>
+  <rect x="470" y="270" width="280" height="50" rx="8" fill="#1e1e1e"/>
+  <text x="490" y="300" font-family="system-ui, sans-serif" font-size="16" fill="#f4f4f5">SLA Alerts</text>
+  <rect x="770" y="270" width="260" height="50" rx="8" fill="#1e1e1e"/>
+  <text x="790" y="300" font-family="system-ui, sans-serif" font-size="16" fill="#f4f4f5">Team Metrics</text>
+  <rect x="170" y="340" width="860" height="115" rx="8" fill="#1e1e1e"/>
+  <rect x="190" y="360" width="820" height="12" rx="6" fill="#27272a"/>
+  <rect x="190" y="385" width="720" height="12" rx="6" fill="#27272a"/>
+  <rect x="190" y="410" width="780" height="12" rx="6" fill="#27272a"/>
+  <rect x="190" y="435" width="680" height="12" rx="6" fill="#27272a"/>
+  <text x="170" y="180" font-family="system-ui, sans-serif" font-size="28" font-weight="600" fill="#f4f4f5">Orbit Ops Dashboard</text>
+  <text x="170" y="510" font-family="system-ui, sans-serif" font-size="14" fill="#a1a1aa">Operations Workflow & Analytics Platform</text>
+</svg>

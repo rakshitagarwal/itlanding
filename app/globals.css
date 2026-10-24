@@ -1,26 +1,106 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: Satoshi;
+  src: url("/ritovex/fonts/6877f416171d80ab243a3662_Satoshi-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Satoshi;
+  src: url("/ritovex/fonts/6877f4166b56b8448059a748_Satoshi-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Satoshi;
+  src: url("/ritovex/fonts/6877f416e7a97f3f6bde499f_Satoshi-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Satoshi;
+  src: url("/ritovex/fonts/6877f416171d80ab243a365f_Satoshi-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Satoshi;
+  src: url("/ritovex/fonts/6877f416f92dd6cf6263052b_Satoshi-Black.ttf") format("truetype");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #141414;
+  --muted: #494852;
+  --surface: #f6f6f9;
+  --accent: #ff7a52;
+  --border: #1b1a2733;
+  --section-gap: 110px;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-muted: var(--muted);
+  --color-surface: var(--surface);
+  --color-accent: var(--accent);
+  --color-border: var(--border);
+  --font-sans: Satoshi, Arial, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Satoshi, Arial, sans-serif;
+}
+
+::selection {
+  background: var(--accent);
+  color: #fff;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+
+.animate-marquee-slow {
+  animation: marquee 45s linear infinite;
+}
+
+.banner-mask {
+  clip-path: path(
+    "M0,32 C0,14 14,0 32,0 L520,0 C560,0 590,40 631,80 L631,520 C631,560 600,600 560,600 L32,600 C14,600 0,586 0,568 Z"
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee,
+  .animate-marquee-slow {
+    animation: none;
+  }
 }

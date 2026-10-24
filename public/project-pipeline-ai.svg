@@ -1,0 +1,28 @@
+<svg width="1200" height="675" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0c4a6e;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#082f49;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#050505;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#5BE0FF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#06b6d4;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="675" fill="url(#bg)"/>
+  <circle cx="950" cy="120" r="80" fill="#5BE0FF" opacity="0.15"/>
+  <circle cx="150" cy="550" r="90" fill="#5BE0FF" opacity="0.1"/>
+  <rect x="150" y="200" width="900" height="275" rx="12" fill="#0a0a0a" stroke="#5BE0FF" stroke-opacity="0.3" stroke-width="1"/>
+  <rect x="170" y="220" width="180" height="20" rx="6" fill="url(#accent)" opacity="0.8"/>
+  <rect x="170" y="260" width="860" height="12" rx="6" fill="#27272a"/>
+  <rect x="170" y="290" width="650" height="12" rx="6" fill="#27272a"/>
+  <rect x="170" y="350" width="420" height="80" rx="8" fill="#1e1e1e"/>
+  <text x="190" y="375" font-family="system-ui, sans-serif" font-size="14" fill="#a1a1aa">Deal Score</text>
+  <text x="190" y="400" font-family="system-ui, sans-serif" font-size="32" font-weight="600" fill="#5BE0FF">94</text>
+  <rect x="610" y="350" width="420" height="80" rx="8" fill="#1e1e1e"/>
+  <text x="630" y="375" font-family="system-ui, sans-serif" font-size="14" fill="#a1a1aa">Next Action</text>
+  <text x="630" y="400" font-family="system-ui, sans-serif" font-size="18" fill="#f4f4f5">Follow up in 2 days</text>
+  <text x="170" y="180" font-family="system-ui, sans-serif" font-size="28" font-weight="600" fill="#f4f4f5">PipelineAI CRM</text>
+  <text x="170" y="510" font-family="system-ui, sans-serif" font-size="14" fill="#a1a1aa">AI-Powered Sales Pipeline Management</text>
+</svg>

@@ -1,0 +1,29 @@
+<svg width="1200" height="675" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#064e3b;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#022c22;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#050505;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#2EE6A6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#10b981;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="675" fill="url(#bg)"/>
+  <circle cx="200" cy="150" r="100" fill="#2EE6A6" opacity="0.15"/>
+  <circle cx="1000" cy="500" r="120" fill="#2EE6A6" opacity="0.1"/>
+  <rect x="150" y="200" width="900" height="275" rx="12" fill="#0a0a0a" stroke="#2EE6A6" stroke-opacity="0.3" stroke-width="1"/>
+  <rect x="170" y="220" width="200" height="20" rx="6" fill="url(#accent)" opacity="0.8"/>
+  <rect x="170" y="260" width="860" height="12" rx="6" fill="#27272a"/>
+  <rect x="170" y="290" width="720" height="12" rx="6" fill="#27272a"/>
+  <rect x="170" y="320" width="800" height="12" rx="6" fill="#27272a"/>
+  <rect x="170" y="380" width="280" height="60" rx="8" fill="#2EE6A6" opacity="0.2" stroke="#2EE6A6" stroke-opacity="0.4"/>
+  <text x="310" y="415" font-family="system-ui, sans-serif" font-size="16" fill="#2EE6A6" text-anchor="middle">Live Route Optimization</text>
+  <rect x="480" y="380" width="280" height="60" rx="8" fill="#1e1e1e"/>
+  <text x="620" y="415" font-family="system-ui, sans-serif" font-size="16" fill="#a1a1aa" text-anchor="middle">Fleet Analytics</text>
+  <rect x="790" y="380" width="240" height="60" rx="8" fill="#1e1e1e"/>
+  <text x="910" y="415" font-family="system-ui, sans-serif" font-size="16" fill="#a1a1aa" text-anchor="middle">Driver App</text>
+  <text x="170" y="180" font-family="system-ui, sans-serif" font-size="28" font-weight="600" fill="#f4f4f5">FleetMind Dashboard</text>
+  <text x="170" y="510" font-family="system-ui, sans-serif" font-size="14" fill="#a1a1aa">AI-Powered Transport Management System</text>
+</svg>
